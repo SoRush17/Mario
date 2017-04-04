@@ -8,24 +8,26 @@
 
 /* Begin PBXBuildFile section */
 		B2F622A61E93BB70003D2211 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F622A51E93BB70003D2211 /* AppDelegate.swift */; };
-		B2F622A81E93BB70003D2211 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B2F622A71E93BB70003D2211 /* GameScene.sks */; };
-		B2F622AA1E93BB70003D2211 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = B2F622A91E93BB70003D2211 /* Actions.sks */; };
-		B2F622AC1E93BB70003D2211 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F622AB1E93BB70003D2211 /* GameScene.swift */; };
 		B2F622AE1E93BB70003D2211 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F622AD1E93BB70003D2211 /* ViewController.swift */; };
 		B2F622B01E93BB70003D2211 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2F622AF1E93BB70003D2211 /* Assets.xcassets */; };
 		B2F622B31E93BB70003D2211 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2F622B11E93BB70003D2211 /* Main.storyboard */; };
+		B2F622BE1E93BCCB003D2211 /* LevelOneScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B2F622BA1E93BCCB003D2211 /* LevelOneScene.sks */; };
+		B2F622BF1E93BCCB003D2211 /* LevelOneScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F622BB1E93BCCB003D2211 /* LevelOneScene.swift */; };
+		B2F622C01E93BCCB003D2211 /* Mario.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F622BC1E93BCCB003D2211 /* Mario.swift */; };
+		B2F622C11E93BCCB003D2211 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F622BD1E93BCCB003D2211 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		B2F622A21E93BB70003D2211 /* MarioProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarioProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2F622A51E93BB70003D2211 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B2F622A71E93BB70003D2211 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		B2F622A91E93BB70003D2211 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
-		B2F622AB1E93BB70003D2211 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		B2F622AD1E93BB70003D2211 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B2F622AF1E93BB70003D2211 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B2F622B21E93BB70003D2211 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B2F622B41E93BB70003D2211 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B2F622BA1E93BCCB003D2211 /* LevelOneScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelOneScene.sks; sourceTree = "<group>"; };
+		B2F622BB1E93BCCB003D2211 /* LevelOneScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelOneScene.swift; sourceTree = "<group>"; };
+		B2F622BC1E93BCCB003D2211 /* Mario.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mario.swift; sourceTree = "<group>"; };
+		B2F622BD1E93BCCB003D2211 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,10 +61,11 @@
 			isa = PBXGroup;
 			children = (
 				B2F622A51E93BB70003D2211 /* AppDelegate.swift */,
-				B2F622A71E93BB70003D2211 /* GameScene.sks */,
-				B2F622A91E93BB70003D2211 /* Actions.sks */,
-				B2F622AB1E93BB70003D2211 /* GameScene.swift */,
 				B2F622AD1E93BB70003D2211 /* ViewController.swift */,
+				B2F622BA1E93BCCB003D2211 /* LevelOneScene.sks */,
+				B2F622BB1E93BCCB003D2211 /* LevelOneScene.swift */,
+				B2F622BC1E93BCCB003D2211 /* Mario.swift */,
+				B2F622BD1E93BCCB003D2211 /* Utils.swift */,
 				B2F622AF1E93BB70003D2211 /* Assets.xcassets */,
 				B2F622B11E93BB70003D2211 /* Main.storyboard */,
 				B2F622B41E93BB70003D2211 /* Info.plist */,
@@ -129,9 +132,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2F622A81E93BB70003D2211 /* GameScene.sks in Resources */,
+				B2F622BE1E93BCCB003D2211 /* LevelOneScene.sks in Resources */,
 				B2F622B01E93BB70003D2211 /* Assets.xcassets in Resources */,
-				B2F622AA1E93BB70003D2211 /* Actions.sks in Resources */,
 				B2F622B31E93BB70003D2211 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -143,8 +145,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2F622C11E93BCCB003D2211 /* Utils.swift in Sources */,
 				B2F622AE1E93BB70003D2211 /* ViewController.swift in Sources */,
-				B2F622AC1E93BB70003D2211 /* GameScene.swift in Sources */,
+				B2F622BF1E93BCCB003D2211 /* LevelOneScene.swift in Sources */,
+				B2F622C01E93BCCB003D2211 /* Mario.swift in Sources */,
 				B2F622A61E93BB70003D2211 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
