@@ -11,49 +11,33 @@ import SpriteKit
 class LevelOneScene: SKScene {
     
     var mario: Mario!
+    var heldKeys: [Key] = []
     
-    var xDirection = Direction.idle
-    var isUpHolded = false
     
     override func didMove(to view: SKView) {
         super.didMove(to: view)
-        print(self.physicsWorld.gravity)
-        
         self.physicsBody = SKPhysicsBody(edgeLoopFrom: self.frame)
         let marioSprite = self.childNode(withName: "//mario")! as! SKSpriteNode
         mario = Mario(sprite: marioSprite)
     }
     
     override func update(_ currentTime: TimeInterval) {
-        mario.move(in: xDirection)
-        mario.update(currentTime)
-        if isUpHolded {
-            mario.Jump()
-        }
+        mario.update(currentTime, heldKeys: heldKeys)
     }
     
     override func keyUp(with event: NSEvent) {
-        
-        if let key = Keys(rawValue: event.keyCode) {
-            switch key {
-            case .up:
-                isUpHolded = false
-            default:
-                xDirection = .idle
+        if let key = Key(rawValue: event.keyCode) {
+            if let index = heldKeys.index(where: {k in k == key}) {
+                heldKeys.remove(at: index)
             }
         }
     }
     
     override func keyDown(with event: NSEvent) {
-        if let key = Keys(rawValue: event.keyCode) {
-            switch key {
-            case .up:
-                isUpHolded = true
-                mario.Jump()
-            case .right:
-                xDirection = .right
-            case .left:
-                xDirection = .left
+        
+        if let key = Key(rawValue: event.keyCode) {
+            if !heldKeys.contains(key) {
+                heldKeys.append(key)
             }
         }
     }

@@ -11,14 +11,17 @@ import Foundation
 
 
 
-enum Keys: UInt16 {
+enum Key: UInt16 {
     case left = 123
     case right = 124
+    case down = 125
     case up = 126
+    case a = 0
 }
 
 enum Direction: Int {
     case right = 1
     case left = -1
-    case idle = 0
 }
+
+
