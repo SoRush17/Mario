@@ -10,61 +10,165 @@ import SpriteKit
 
 class Mario {
     
-    private let maxSpeed: CGFloat = 250
+    
+    // MARK:- Stored Properties
+    
     private let sprite: SKSpriteNode
+    private let idleTexture: SKTexture
+    private let movingTextures: [SKTexture]
+    private let climbingTextures: [SKTexture]
+    private let jumpTexture: SKTexture
     
-    private var xDirection: Direction
     private var isInTheAir = false
+    private var isJumping = false {
+        didSet{
+            updateAnimation()
+        }
+    }
+    private var isMoving = false {
+        didSet{
+            updateAnimation()
+        }
+    }
     
-    private var XDirection: Direction {
+    private var xDirection = Direction.right { didSet{ self.sprite.xScale *= -1 }}
+    
+    // MARK:- Computed Properties
+    
+    var IsJumping: Bool {
+        get { return self.isJumping }
+        set {
+            if newValue != self.isJumping {
+                self.isJumping = newValue
+            }
+        }
+    }
+    
+    var IsMoving: Bool {
+        get { return self.isMoving }
+        set {
+            if newValue != self.isMoving {
+                self.isMoving = newValue
+            }
+        }
+    }
+    var XDirection: Direction {
+        get { return self.xDirection }
         set {
             if newValue != self.xDirection {
                 self.xDirection = newValue
             }
         }
-        get { return self.xDirection }
     }
     
+    // MARK:- Main Methods
+    
+    func update(_ currentTime: TimeInterval) {
+        
+        if self.sprite.physicsBody!.velocity.dy == 0 && isInTheAir {
+            isInTheAir = false
+            sprite.removeAction(forKey: "jumping")
+            if isMoving {
+                animateMoving()
+            }
+        }
+        
+        if isJumping {
+            if !isInTheAir {
+                jump()
+            } else {
+                
+            }
+        }
+        
+        if IsMoving {
+            move()
+        }
+    }
     
     init(sprite: SKSpriteNode) {
         self.sprite = sprite
-        self.xDirection = .right
+        
+        var walkingText: [SKTexture] = []
+        var climbingText: [SKTexture] = []
+        let jumpImage = NSImage(named: "mario-jump")!
+        let idleImage = NSImage(named: "mario-idle")!
+        
+        jumpImage.size.scale(i: scale)
+        jumpImage.size.scale(i: scale)
+        
+        
+        
+        for i in 1...3 {
+            let image = NSImage(named: "mario-walk\(i)")!
+            
+            image.size.scale(i: scale)
+            let texture = SKTexture(image: image)
+            walkingText.append(texture)
+        }
+        for i in 1...2 {
+            let image = NSImage(named: "mario-climb\(i)")!
+            
+            image.size.scale(i: scale)
+            let texture = SKTexture(image: image)
+            climbingText.append(texture)
+        }
+        
+        self.jumpTexture = SKTexture(image: jumpImage)
+        self.idleTexture = SKTexture(image: idleImage)
+        self.movingTextures = walkingText
+        self.climbingTextures = climbingText
+        
     }
+    
+    // MARK:- Methods
     
     private func jump() {
         self.sprite.physicsBody!.applyImpulse(CGVector(dx: 0, dy: 500))
-        isInTheAir = true
+        self.isInTheAir = true
     }
     
     private func move() {
-        self.sprite.physicsBody!.applyForce(CGVector(dx: xDirection.rawValue * 1000, dy: 0))
+        if abs(self.sprite.physicsBody!.velocity.dx) < maxSpeed {
+            self.sprite.physicsBody!.applyForce(CGVector(dx: XDirection.rawValue * 1000, dy: 0))
+        }
     }
     
     
-    
-    func update(_ currentTime: TimeInterval, heldKeys: [Key]) {
+    // MARK:- Animations
+    private func animateMoving() {
+        let moving = SKAction.animate(with: movingTextures,
+                                      timePerFrame: 0.08,
+                                      resize: true,
+                                      restore: true)
+        self.sprite.run(SKAction.repeatForever(moving),
+                        withKey: "moving")
         
-        if self.sprite.physicsBody!.velocity.dy == 0 {
-           isInTheAir = false
-        }
-        
-        if abs(sprite.physicsBody!.velocity.dx) > 200 {
-            self.sprite.physicsBody!.velocity.dx = maxSpeed * CGFloat(XDirection.rawValue)
-        }
-        
-        if heldKeys.contains(.right) {
-            self.XDirection = .right
-            self.move()
-        }
-        
-        if heldKeys.contains(.left) {
-            self.XDirection = .left
-            self.move()
-        }
-        
-        if heldKeys.contains(.up) && !isInTheAir {
-            self.jump()
-        }
         
     }
+    
+    private func animateJumping() {
+        self.sprite.texture = jumpTexture
+    }
+    
+    func updateAnimation() {
+        switch true {
+        case IsMoving && !isInTheAir:
+            self.sprite.removeAllActions()
+            animateMoving()
+        case IsMoving && isInTheAir:
+            self.sprite.removeAllActions()
+            animateJumping()
+        case !IsMoving && isInTheAir:
+            self.sprite.removeAllActions()
+            animateJumping()
+        default:
+            self.sprite.removeAllActions()
+            self.sprite.texture = idleTexture
+            
+        }
+    }
+    
+
+    
 }

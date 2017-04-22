@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B2619AB71EAB6D7D00EE85D0 /* Configurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2619AB61EAB6D7D00EE85D0 /* Configurations.swift */; };
 		B2F622A61E93BB70003D2211 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F622A51E93BB70003D2211 /* AppDelegate.swift */; };
 		B2F622AE1E93BB70003D2211 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F622AD1E93BB70003D2211 /* ViewController.swift */; };
 		B2F622B01E93BB70003D2211 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2F622AF1E93BB70003D2211 /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B2619AB61EAB6D7D00EE85D0 /* Configurations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configurations.swift; sourceTree = "<group>"; };
 		B2F622A21E93BB70003D2211 /* MarioProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarioProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2F622A51E93BB70003D2211 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B2F622AD1E93BB70003D2211 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 				B2F622BB1E93BCCB003D2211 /* LevelOneScene.swift */,
 				B2F622BC1E93BCCB003D2211 /* Mario.swift */,
 				B2F622BD1E93BCCB003D2211 /* Utils.swift */,
+				B2619AB61EAB6D7D00EE85D0 /* Configurations.swift */,
 				B2F622AF1E93BB70003D2211 /* Assets.xcassets */,
 				B2F622B11E93BB70003D2211 /* Main.storyboard */,
 				B2F622B41E93BB70003D2211 /* Info.plist */,
@@ -147,6 +150,7 @@
 			files = (
 				B2F622C11E93BCCB003D2211 /* Utils.swift in Sources */,
 				B2F622AE1E93BB70003D2211 /* ViewController.swift in Sources */,
+				B2619AB71EAB6D7D00EE85D0 /* Configurations.swift in Sources */,
 				B2F622BF1E93BCCB003D2211 /* LevelOneScene.swift in Sources */,
 				B2F622C01E93BCCB003D2211 /* Mario.swift in Sources */,
 				B2F622A61E93BB70003D2211 /* AppDelegate.swift in Sources */,
@@ -302,6 +306,7 @@
 				B2F622B91E93BB70003D2211 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -6,16 +6,16 @@
 //  Copyright © 1396 SoRush. All rights reserved.
 //
 
-import Foundation
+import SpriteKit
 
 
 
 
 enum Key: UInt16 {
-    case left = 123
-    case right = 124
-    case down = 125
-    case up = 126
+    case arrLeft = 123
+    case arrRight = 124
+    case arrDown = 125
+    case arrUp = 126
     case a = 0
 }
 
@@ -24,4 +24,9 @@ enum Direction: Int {
     case left = -1
 }
 
-
+extension CGSize {
+    mutating func scale(i: CGFloat) {
+        self.height *= i
+        self.width *= i
+    }
+}
