@@ -9,6 +9,7 @@
 import Foundation
 
 
-let maxSpeed: CGFloat = 300
+let maxSpeed: CGFloat = 500
 let idleSize = CGSize(width: 65, height: 80)
 let scale: CGFloat = 3.5
+let jumpPower: CGFloat = 900

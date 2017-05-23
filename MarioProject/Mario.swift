@@ -22,16 +22,21 @@ class Mario {
     private var isInTheAir = false
     private var isJumping = false {
         didSet{
-            updateAnimation()
+            
         }
     }
     private var isMoving = false {
         didSet{
-            updateAnimation()
+//            if isMoving {
+//                self.animateMoving()
+//            } else {
+//                self.sprite.removeAction(forKey: "moving")
+//                self.sprite.texture = idleTexture
+//            }
         }
     }
     
-    private var xDirection = Direction.right { didSet{ self.sprite.xScale *= -1 }}
+    private var xDirection = Direction.right { didSet{ }}//self.sprite.xScale *= -1 }}
     
     // MARK:- Computed Properties
     
@@ -60,34 +65,38 @@ class Mario {
             }
         }
     }
+    var XPosition: CGFloat {
+        return self.sprite.position.x
+    }
     
     // MARK:- Main Methods
     
     func update(_ currentTime: TimeInterval) {
         
-        if self.sprite.physicsBody!.velocity.dy == 0 && isInTheAir {
-            isInTheAir = false
-            sprite.removeAction(forKey: "jumping")
-            if isMoving {
-                animateMoving()
+        
+        if self.sprite.physicsBody?.velocity.dy == 0 {
+            if isInTheAir {
+                isInTheAir = false
             }
+            
+        } else {
+            isInTheAir = true
         }
         
-        if isJumping {
-            if !isInTheAir {
-                jump()
-            } else {
-                
-            }
+        
+        
+        if isJumping && !isInTheAir {
+            self.jump()
         }
         
         if IsMoving {
-            move()
+            self.move()
         }
     }
     
     init(sprite: SKSpriteNode) {
         self.sprite = sprite
+        
         
         var walkingText: [SKTexture] = []
         var climbingText: [SKTexture] = []
@@ -124,7 +133,7 @@ class Mario {
     // MARK:- Methods
     
     private func jump() {
-        self.sprite.physicsBody!.applyImpulse(CGVector(dx: 0, dy: 500))
+        self.sprite.physicsBody!.applyImpulse(CGVector(dx: 0, dy: jumpPower))
         self.isInTheAir = true
     }
     
@@ -146,29 +155,9 @@ class Mario {
         
         
     }
-    
-    private func animateJumping() {
-        self.sprite.texture = jumpTexture
-    }
-    
-    func updateAnimation() {
-        switch true {
-        case IsMoving && !isInTheAir:
-            self.sprite.removeAllActions()
-            animateMoving()
-        case IsMoving && isInTheAir:
-            self.sprite.removeAllActions()
-            animateJumping()
-        case !IsMoving && isInTheAir:
-            self.sprite.removeAllActions()
-            animateJumping()
-        default:
-            self.sprite.removeAllActions()
-            self.sprite.texture = idleTexture
-            
-        }
-    }
-    
-
+//
+//    private func animateJumping() {
+//        self.sprite.texture = jumpTexture
+//    }
     
 }

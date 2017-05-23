@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B2024C691EB73343005EBB65 /* pointTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2024C681EB73343005EBB65 /* pointTile.swift */; };
 		B2619AB71EAB6D7D00EE85D0 /* Configurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2619AB61EAB6D7D00EE85D0 /* Configurations.swift */; };
 		B2F622A61E93BB70003D2211 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F622A51E93BB70003D2211 /* AppDelegate.swift */; };
 		B2F622AE1E93BB70003D2211 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F622AD1E93BB70003D2211 /* ViewController.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B2024C681EB73343005EBB65 /* pointTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = pointTile.swift; sourceTree = "<group>"; };
 		B2619AB61EAB6D7D00EE85D0 /* Configurations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configurations.swift; sourceTree = "<group>"; };
 		B2F622A21E93BB70003D2211 /* MarioProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarioProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2F622A51E93BB70003D2211 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -43,6 +45,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B2020BA01EAEB3CD00A6C7FB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B2F622A51E93BB70003D2211 /* AppDelegate.swift */,
+				B2F622AF1E93BB70003D2211 /* Assets.xcassets */,
+				B2F622B41E93BB70003D2211 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		B2F622991E93BB70003D2211 = {
 			isa = PBXGroup;
 			children = (
@@ -62,16 +74,15 @@
 		B2F622A41E93BB70003D2211 /* MarioProject */ = {
 			isa = PBXGroup;
 			children = (
-				B2F622A51E93BB70003D2211 /* AppDelegate.swift */,
+				B2619AB61EAB6D7D00EE85D0 /* Configurations.swift */,
 				B2F622AD1E93BB70003D2211 /* ViewController.swift */,
 				B2F622BA1E93BCCB003D2211 /* LevelOneScene.sks */,
 				B2F622BB1E93BCCB003D2211 /* LevelOneScene.swift */,
 				B2F622BC1E93BCCB003D2211 /* Mario.swift */,
+				B2024C681EB73343005EBB65 /* pointTile.swift */,
 				B2F622BD1E93BCCB003D2211 /* Utils.swift */,
-				B2619AB61EAB6D7D00EE85D0 /* Configurations.swift */,
-				B2F622AF1E93BB70003D2211 /* Assets.xcassets */,
+				B2020BA01EAEB3CD00A6C7FB /* Resources */,
 				B2F622B11E93BB70003D2211 /* Main.storyboard */,
-				B2F622B41E93BB70003D2211 /* Info.plist */,
 			);
 			path = MarioProject;
 			sourceTree = "<group>";
@@ -150,6 +161,7 @@
 			files = (
 				B2F622C11E93BCCB003D2211 /* Utils.swift in Sources */,
 				B2F622AE1E93BB70003D2211 /* ViewController.swift in Sources */,
+				B2024C691EB73343005EBB65 /* pointTile.swift in Sources */,
 				B2619AB71EAB6D7D00EE85D0 /* Configurations.swift in Sources */,
 				B2F622BF1E93BCCB003D2211 /* LevelOneScene.swift in Sources */,
 				B2F622C01E93BCCB003D2211 /* Mario.swift in Sources */,
