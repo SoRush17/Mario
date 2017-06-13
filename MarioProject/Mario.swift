@@ -8,37 +8,80 @@
 
 import SpriteKit
 
-class Mario {
+
+class Mario: Updatable {
     
+    static let standard = Mario(sprite: SKSpriteNode(texture: Mario.idleTexture))
     
-    // MARK:- Stored Properties
-    
-    private let sprite: SKSpriteNode
-    private let idleTexture: SKTexture
-    private let movingTextures: [SKTexture]
-    private let climbingTextures: [SKTexture]
-    private let jumpTexture: SKTexture
-    
-    private var isInTheAir = false
-    private var isJumping = false {
-        didSet{
-            
-        }
-    }
-    private var isMoving = false {
-        didSet{
-//            if isMoving {
-//                self.animateMoving()
-//            } else {
-//                self.sprite.removeAction(forKey: "moving")
-//                self.sprite.texture = idleTexture
-//            }
-        }
-    }
-    
-    private var xDirection = Direction.right { didSet{ }}//self.sprite.xScale *= -1 }}
     
     // MARK:- Computed Properties
+    
+    var movingTextures: [SKTexture] {
+        return mode == .normal ? Mario.movingTextures : Mario.movingSuperTextures
+    }
+    
+    var jumpTexture: SKTexture {
+        return mode == .normal ? Mario.jumpTexture : Mario.jumpSuperTexture
+    }
+    
+    var idleTexture: SKTexture {
+        return mode == .normal ? Mario.idleTexture : Mario.idleSuperTexture
+    }
+    
+    var physics: SKPhysicsBody {
+        return mode == .normal ? Mario.normalPhysics : Mario.superPhysics
+    }
+    
+    // MARK:- Sprite textures
+    let sprite: SKSpriteNode
+    private let head: SKNode
+    private let foots: SKNode
+    
+    
+    private var mode: MarioMode = .normal
+    
+    private var isInTheAir = false {
+        didSet {
+            if isInTheAir {
+                sprite.removeAction(forKey: "moving")
+                animateJumping()
+            } else {
+                if isMoving {
+                    animateMoving()
+                } else {
+                    goIdle()
+                }
+            }
+        }
+    }
+    
+    private var isJumping = false
+    
+    private var isMoving = false {
+        didSet {
+            if !IsInTheAir {
+                if isMoving {
+                    self.animateMoving()
+                } else {
+                    sprite.removeAction(forKey: "moving")
+                    goIdle()
+                }
+            }
+        }
+    }
+    
+    private var xDirection = Direction.right { didSet{ self.sprite.xScale *= -1 }}
+    
+    // MARK:- Computed Properties
+    
+    var IsInTheAir: Bool {
+        get { return self.isInTheAir }
+        set {
+            if newValue != self.isInTheAir {
+                self.isInTheAir = newValue
+            }
+        }
+    }
     
     var IsJumping: Bool {
         get { return self.isJumping }
@@ -57,6 +100,7 @@ class Mario {
             }
         }
     }
+    
     var XDirection: Direction {
         get { return self.xDirection }
         set {
@@ -65,6 +109,7 @@ class Mario {
             }
         }
     }
+    
     var XPosition: CGFloat {
         return self.sprite.position.x
     }
@@ -74,16 +119,16 @@ class Mario {
     func update(_ currentTime: TimeInterval) {
         
         
-        if self.sprite.physicsBody?.velocity.dy == 0 {
-            if isInTheAir {
-                isInTheAir = false
-            }
-            
-        } else {
-            isInTheAir = true
+        if sprite.physicsBody!.allContactedBodies().contains(where: { phy in
+            if let node = phy.node {
+                return node.intersects(foots)
+            }; return false
+        })
+        
+        {
+            IsInTheAir = false
+            self.sprite.physicsBody?.velocity.dy = 0
         }
-        
-        
         
         if isJumping && !isInTheAir {
             self.jump()
@@ -94,46 +139,26 @@ class Mario {
         }
     }
     
-    init(sprite: SKSpriteNode) {
+    private init(sprite: SKSpriteNode) {
         self.sprite = sprite
+        self.sprite.physicsBody = Mario.normalPhysics
+        self.sprite.name = "mario"
+        self.head = SKSpriteNode(color: .yellow, size: CGSize(width: self.sprite.size.width - 10, height: 2))
+        self.foots =  SKSpriteNode(color: .yellow, size: CGSize(width: self.sprite.size.width - 10, height: 2))
         
-        
-        var walkingText: [SKTexture] = []
-        var climbingText: [SKTexture] = []
-        let jumpImage = NSImage(named: "mario-jump")!
-        let idleImage = NSImage(named: "mario-idle")!
-        
-        jumpImage.size.scale(i: scale)
-        jumpImage.size.scale(i: scale)
-        
-        
-        
-        for i in 1...3 {
-            let image = NSImage(named: "mario-walk\(i)")!
-            
-            image.size.scale(i: scale)
-            let texture = SKTexture(image: image)
-            walkingText.append(texture)
-        }
-        for i in 1...2 {
-            let image = NSImage(named: "mario-climb\(i)")!
-            
-            image.size.scale(i: scale)
-            let texture = SKTexture(image: image)
-            climbingText.append(texture)
-        }
-        
-        self.jumpTexture = SKTexture(image: jumpImage)
-        self.idleTexture = SKTexture(image: idleImage)
-        self.movingTextures = walkingText
-        self.climbingTextures = climbingText
-        
+        head.position.y = 28.5
+        foots.position.y = -28.5
+        self.sprite.addChild(head)
+        self.sprite.addChild(foots)
     }
     
     // MARK:- Methods
     
-    private func jump() {
+    func jump() {
         self.sprite.physicsBody!.applyImpulse(CGVector(dx: 0, dy: jumpPower))
+        let jumpSound = NSSound(named: "jump")!
+        jumpSound.stop()
+        jumpSound.play()
         self.isInTheAir = true
     }
     
@@ -143,21 +168,62 @@ class Mario {
         }
     }
     
+    func didHit(node: SKNode, with hitPoint: HitPoint) -> Bool {
+        return hitPoint == .head ? head.intersects(node) : foots.intersects(node)
+    }
+    
+    func changeMode(to mode: Mario.MarioMode) {
+        if self.mode == mode && mode == .normal {
+            self.sprite.removeFromParent()
+        } else {
+            self.goIdle()
+            self.sprite.scene?.physicsWorld.speed = 0
+            
+            let anim1 =
+                mode == .superMario ? SKAction.scaleY(to: 1.4, duration: 0) : SKAction.fadeOut(withDuration: 0)
+            let anim2 =
+                mode == .superMario ? SKAction.scaleY(to: 1, duration: 0) : SKAction.fadeIn(withDuration: 0)
+            let wait = SKAction.wait(forDuration: 0.1)
+            
+            let actSequence = SKAction.sequence([anim1,wait,anim2,wait,anim1,wait,anim2])
+            
+            self.sprite.run(actSequence) {
+                self.mode = mode
+                self.goIdle()
+                self.sprite.physicsBody?.velocity = CGVector.zero
+                self.sprite.scene?.physicsWorld.speed = 1
+                self.sprite.physicsBody = self.physics
+                self.foots.position.y = -self.sprite.frame.height/2 - 3
+                self.head.position.y = self.sprite.frame.height/2 + 3
+            }
+        }
+    }
     
     // MARK:- Animations
+    
+    private func goIdle() {
+        self.sprite.size = idleTexture.size()
+        self.sprite.texture = idleTexture
+    }
+    
     private func animateMoving() {
-        let moving = SKAction.animate(with: movingTextures,
-                                      timePerFrame: 0.08,
-                                      resize: true,
-                                      restore: true)
+        
+        let moving = SKAction.animate(with: self.movingTextures, timePerFrame: 0.08,
+                                                 resize: true, restore: true)
         self.sprite.run(SKAction.repeatForever(moving),
                         withKey: "moving")
-        
-        
     }
-//
-//    private func animateJumping() {
-//        self.sprite.texture = jumpTexture
-//    }
+    
+    private func animateJumping() {
+        self.sprite.size = jumpTexture.size()
+        self.sprite.texture = jumpTexture
+    }
+    
+    private func animateClimbing() {
+        let actClimbing = SKAction.animate(with: self.movingTextures, timePerFrame: 0.08,
+                                                    resize: true, restore: true)
+        self.sprite.run(SKAction.repeatForever(actClimbing),
+                        withKey: "climbing")
+    }
     
 }

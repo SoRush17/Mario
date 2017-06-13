@@ -26,10 +26,18 @@ class ViewController: NSViewController {
             }
             
             //view.ignoresSiblingOrder = true
-//            view.showsPhysics = true
+            view.showsPhysics = true
             view.showsFPS = true
             view.showsNodeCount = true
         }
+    }
+    
+    @IBAction func reset(button: NSButton) {
+        
+        let scene = SKScene(fileNamed: "LevelOneScene")!
+        scene.scaleMode = .aspectFill
+        skView.presentScene(scene)
+        
     }
     
 }

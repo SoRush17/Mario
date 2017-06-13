@@ -10,49 +10,50 @@ import SpriteKit
 
 class LevelOneScene: SKScene {
     
-    var mario: Mario!
+    private let mario = Mario.standard
     var backGround: SKSpriteNode!
-    
+    let music = NSSound(named: "level-01")!
     
     
     override func didMove(to view: SKView) {
         super.didMove(to: view)
+//        music.play()
+        
+        
         
         self.backGround = self.childNode(withName: "//backGround")! as! SKSpriteNode
-        let marioSprite = self.childNode(withName: "//mario")! as! SKSpriteNode
+        self.mario.sprite.position = CGPoint(x: -150, y: -272)
+        self.addChild(mario.sprite)
         
-        mario = Mario(sprite: marioSprite)
         
-        
-        for item in self.children {
-
-            if let item = item as? SKSpriteNode {
-                        if item.name!.contains("tileSet")  {
-                    let phys = SKPhysicsBody(texture: item.texture!, size: item.size)
-                    phys.pinned = true
-                    phys.affectedByGravity = false
-                    phys.allowsRotation = false
-                    phys.isDynamic = false
-                    if item.xScale < 0 {
-                        item.xScale *= -1
-                        item.physicsBody = phys
-                        item.xScale *= -1
-                    } else {
-                        item.physicsBody = phys
-                    }
-                    
-                }
+        for node in self.children {
+            if node.name!.contains("tileSet") {
+                let tileSet = node as! SKSpriteNode
+                let phys = SKPhysicsBody(texture: tileSet.texture!, alphaThreshold: 10, size: tileSet.size)
+                
+                phys.restitution = 0
+                phys.pinned = true
+                phys.affectedByGravity = false
+                phys.allowsRotation = false
+                phys.isDynamic = false
+                tileSet.physicsBody = phys
+                
             }
+            
+            (node as? Animatable)?.beginInitAnimations()
         }
         
         
     }
     
+    override func addChild(_ node: SKNode) {
+        super.addChild(node)
+        (node as? Animatable)?.beginInitAnimations()
+    }
+    
     override func update(_ currentTime: TimeInterval) {
         
         mario.update(currentTime)
-        
-        
         
         if mario.XPosition + 1023/2 < backGround.frame.maxX {
             if mario.XPosition > self.camera!.position.x {
@@ -60,26 +61,17 @@ class LevelOneScene: SKScene {
             }
         }
         
-        
-        
         for node in self.children {
-            if node.name == "pointTile" {
-                (node as! pointTile).update(currentTime)
-            }
+            (node as? Updatable)?.update(currentTime)
             
             if node.frame.maxX < mario.XPosition - 1025/2 {
                 node.removeFromParent()
             }
         }
         
-        
     }
     
-    
-    
-    
-    
-    
+
     
     
     override func keyUp(with event: NSEvent) {
@@ -96,7 +88,7 @@ class LevelOneScene: SKScene {
             }
         }
     }
-    
+
     override func keyDown(with event: NSEvent) {
         if let key = Key(rawValue: event.keyCode) {
             switch key {
