@@ -16,26 +16,33 @@ class Mario: Updatable {
     
     // MARK:- Computed Properties
     
-    var movingTextures: [SKTexture] {
+    private var movingTextures: [SKTexture] {
         return mode == .normal ? Mario.movingTextures : Mario.movingSuperTextures
     }
     
-    var jumpTexture: SKTexture {
+    private var jumpTexture: SKTexture {
         return mode == .normal ? Mario.jumpTexture : Mario.jumpSuperTexture
     }
     
-    var idleTexture: SKTexture {
+    private var idleTexture: SKTexture {
         return mode == .normal ? Mario.idleTexture : Mario.idleSuperTexture
     }
     
-    var physics: SKPhysicsBody {
+    private var climbingTextures: [SKTexture] {
+        return mode == .normal ? Mario.climbingTextures : Mario.climbingSuperTextures
+    }
+    
+    private var physics: SKPhysicsBody {
         return mode == .normal ? Mario.normalPhysics : Mario.superPhysics
     }
     
     // MARK:- Sprite textures
     let sprite: SKSpriteNode
+    var canUpdate = true
+    
     private let head: SKNode
     private let foots: SKNode
+    
     
     
     private var mode: MarioMode = .normal
@@ -118,6 +125,7 @@ class Mario: Updatable {
     
     func update(_ currentTime: TimeInterval) {
         
+        guard canUpdate else { return }
         
         if sprite.physicsBody!.allContactedBodies().contains(where: { phy in
             if let node = phy.node {
@@ -143,8 +151,8 @@ class Mario: Updatable {
         self.sprite = sprite
         self.sprite.physicsBody = Mario.normalPhysics
         self.sprite.name = "mario"
-        self.head = SKSpriteNode(color: .yellow, size: CGSize(width: self.sprite.size.width - 10, height: 2))
-        self.foots =  SKSpriteNode(color: .yellow, size: CGSize(width: self.sprite.size.width - 10, height: 2))
+        self.head = SKSpriteNode(color: .clear, size: CGSize(width: self.sprite.size.width - 10, height: 2))
+        self.foots =  SKSpriteNode(color: .clear, size: CGSize(width: self.sprite.size.width - 10, height: 2))
         
         head.position.y = 28.5
         foots.position.y = -28.5
@@ -154,11 +162,10 @@ class Mario: Updatable {
     
     // MARK:- Methods
     
-    func jump() {
-        self.sprite.physicsBody!.applyImpulse(CGVector(dx: 0, dy: jumpPower))
-        let jumpSound = NSSound(named: "jump")!
-        jumpSound.stop()
-        jumpSound.play()
+    func jump(withPower power: CGFloat = jumpPower) {
+        self.sprite.physicsBody!.applyImpulse(CGVector(dx: 0, dy: power))
+        SoundManager.Jump.stop()
+        SoundManager.Jump.play()
         self.isInTheAir = true
     }
     
@@ -168,33 +175,85 @@ class Mario: Updatable {
         }
     }
     
+    func beginEndAnimationFromPole(at height: CGFloat, to position: CGPoint) {
+        self.sprite.removeAllActions()
+        self.sprite.physicsBody!.pinned = true
+        self.sprite.physicsBody!.isDynamic = false
+        let act1 = SKAction.moveBy(x: 0, y: height, duration: TimeInterval(abs(height))/200.0)
+        let act2 = SKAction.repeatForever(SKAction.animate(with: self.climbingTextures, timePerFrame: 0.1, resize: true, restore: true))
+        
+        self.sprite.run(act2, withKey: "climbing")
+        self.sprite.run(act1) {
+            self.sprite.removeAction(forKey: "climbing")
+            self.goIdle()
+            self.sprite.physicsBody!.isDynamic = true
+            self.sprite.physicsBody!.pinned = false
+            let wait = SKAction.wait(forDuration: 0.3)
+            self.sprite.run(wait) {
+                if self.XDirection == .left {
+                    self.XDirection = .right
+                }
+                SoundManager.levelEnd.stop()
+                SoundManager.levelEnd.play()
+                self.sprite.run(SKAction.move(to: position, duration: 2)) {
+                }
+                self.animateMoving()
+            }
+        }
+    }
+    
+    func die() {
+        
+    }
+    
+    func reset() {
+        self.sprite.removeAllActions()
+        self.canUpdate = true
+        self.isMoving = false
+        self.isJumping = false
+        self.isInTheAir = false
+        self.mode = .normal
+        self.goIdle()
+        self.sprite.physicsBody = self.physics
+    }
+    
     func didHit(node: SKNode, with hitPoint: HitPoint) -> Bool {
         return hitPoint == .head ? head.intersects(node) : foots.intersects(node)
     }
     
     func changeMode(to mode: Mario.MarioMode) {
         if self.mode == mode && mode == .normal {
-            self.sprite.removeFromParent()
+            self.die()
         } else {
+            self.IsInTheAir = false
+            self.IsMoving = false
+            self.IsJumping = false
+            self.canUpdate = false
             self.goIdle()
-            self.sprite.scene?.physicsWorld.speed = 0
+            self.sprite.anchorPoint = CGPoint(x: 0.5, y: 0)
+            self.sprite.position.y -= self.sprite.frame.height/2
+            self.sprite.physicsBody = nil
             
             let anim1 =
-                mode == .superMario ? SKAction.scaleY(to: 1.4, duration: 0) : SKAction.fadeOut(withDuration: 0)
+                mode == .superMario ? SKAction.resize(toHeight: self.sprite.frame.height + 20, duration: 0) : SKAction.fadeOut(withDuration: 0)
+
             let anim2 =
-                mode == .superMario ? SKAction.scaleY(to: 1, duration: 0) : SKAction.fadeIn(withDuration: 0)
+                mode == .superMario ? SKAction.resize(toHeight: self.sprite.frame.height, duration: 0) : SKAction.fadeIn(withDuration: 0)
+            
             let wait = SKAction.wait(forDuration: 0.1)
             
-            let actSequence = SKAction.sequence([anim1,wait,anim2,wait,anim1,wait,anim2])
+            let actSequence = SKAction.sequence([anim1,wait,anim2,wait,anim1,wait,anim2,wait,anim1,wait,anim2,wait,anim1,wait,anim2])
+            
             
             self.sprite.run(actSequence) {
+                self.sprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
                 self.mode = mode
                 self.goIdle()
                 self.sprite.physicsBody?.velocity = CGVector.zero
-                self.sprite.scene?.physicsWorld.speed = 1
                 self.sprite.physicsBody = self.physics
                 self.foots.position.y = -self.sprite.frame.height/2 - 3
                 self.head.position.y = self.sprite.frame.height/2 + 3
+                self.canUpdate = true
             }
         }
     }
@@ -208,7 +267,7 @@ class Mario: Updatable {
     
     private func animateMoving() {
         
-        let moving = SKAction.animate(with: self.movingTextures, timePerFrame: 0.08,
+        let moving = SKAction.animate(with: self.movingTextures, timePerFrame: 0.07,
                                                  resize: true, restore: true)
         self.sprite.run(SKAction.repeatForever(moving),
                         withKey: "moving")
@@ -218,12 +277,4 @@ class Mario: Updatable {
         self.sprite.size = jumpTexture.size()
         self.sprite.texture = jumpTexture
     }
-    
-    private func animateClimbing() {
-        let actClimbing = SKAction.animate(with: self.movingTextures, timePerFrame: 0.08,
-                                                    resize: true, restore: true)
-        self.sprite.run(SKAction.repeatForever(actClimbing),
-                        withKey: "climbing")
-    }
-    
 }

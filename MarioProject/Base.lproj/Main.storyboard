@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -663,9 +664,9 @@
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
+                <windowController showSeguePresentationStyle="single" id="B8D-0N-5wS" sceneMemberID="viewController">
                     <window key="window" title="MarioProject" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="IQv-IB-iLA">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
@@ -681,13 +682,14 @@
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="MarioProject" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController showSeguePresentationStyle="single" id="XfG-lQ-9wD" customClass="ViewController" customModule="MarioProject" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zT6-nw-66f">
-                                <rect key="frame" x="14" y="552" width="81" height="32"/>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zT6-nw-66f">
+                                <rect key="frame" x="24" y="397" width="81" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="RESET" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="C9t-Vt-0eU">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -696,14 +698,92 @@
                                     <action selector="resetWithButton:" target="XfG-lQ-9wD" id="glE-1w-C0a"/>
                                 </connections>
                             </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ILq-8X-P1o">
+                                <rect key="frame" x="57" y="564" width="78" height="22"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="MARIO" id="h5F-Ay-HKm">
+                                    <font key="font" size="21" name="Minecraft"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="z6d-E5-6rg">
+                                <rect key="frame" x="265" y="551" width="10" height="14"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="coin-glow1" id="FZh-Y4-A4g"/>
+                            </imageView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="usX-o7-rSe">
+                                <rect key="frame" x="278" y="547" width="45" height="18"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="x 00" id="RE4-TF-7I1">
+                                    <font key="font" size="17" name="Minecraft"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JtW-Tf-mZd">
+                                <rect key="frame" x="57" y="543" width="86" height="24"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="000000" id="imI-Bn-4mk">
+                                    <font key="font" size="23" name="Minecraft"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iTf-8a-xcn">
+                                <rect key="frame" x="458" y="564" width="85" height="22"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="WORLD" id="fz8-Oy-RM8">
+                                    <font key="font" size="21" name="Minecraft"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qfa-xf-35V">
+                                <rect key="frame" x="482" y="543" width="37" height="24"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="1-1" id="Wb8-Oo-fVW">
+                                    <font key="font" size="23" name="Minecraft"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YHG-Pi-L9q">
+                                <rect key="frame" x="673" y="564" width="54" height="22"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Time" id="ggM-Kp-azv">
+                                    <font key="font" size="21" name="Minecraft"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WAg-S2-BBH">
+                                <rect key="frame" x="677" y="543" width="45" height="24"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="400" id="tEp-fg-T54">
+                                    <font key="font" size="23" name="Minecraft"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="zT6-nw-66f" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="12F-PK-NuI"/>
-                            <constraint firstItem="zT6-nw-66f" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="ZdI-WM-lPr"/>
+                            <constraint firstItem="Qfa-xf-35V" firstAttribute="centerX" secondItem="iTf-8a-xcn" secondAttribute="centerX" id="1b4-h7-HPs"/>
+                            <constraint firstItem="usX-o7-rSe" firstAttribute="leading" secondItem="z6d-E5-6rg" secondAttribute="trailing" constant="5" id="5L5-hm-JBX"/>
+                            <constraint firstItem="YHG-Pi-L9q" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" multiplier="7:4" id="71O-tD-qf0"/>
+                            <constraint firstItem="iTf-8a-xcn" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" multiplier="5:4" id="7Q2-mJ-g4Y"/>
+                            <constraint firstItem="usX-o7-rSe" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" multiplier="3:4" id="EdS-BR-R5W"/>
+                            <constraint firstItem="WAg-S2-BBH" firstAttribute="top" secondItem="YHG-Pi-L9q" secondAttribute="bottom" constant="-3" id="J0D-3G-9q4"/>
+                            <constraint firstItem="YHG-Pi-L9q" firstAttribute="top" secondItem="iTf-8a-xcn" secondAttribute="top" id="Pzy-Xq-gkM"/>
+                            <constraint firstItem="JtW-Tf-mZd" firstAttribute="top" secondItem="ILq-8X-P1o" secondAttribute="bottom" constant="-3" id="ZWs-fv-C0x"/>
+                            <constraint firstItem="usX-o7-rSe" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="35" id="dST-I2-46g"/>
+                            <constraint firstItem="WAg-S2-BBH" firstAttribute="centerX" secondItem="YHG-Pi-L9q" secondAttribute="centerX" id="diG-I7-iLC"/>
+                            <constraint firstItem="Qfa-xf-35V" firstAttribute="top" secondItem="iTf-8a-xcn" secondAttribute="bottom" constant="-3" id="gTr-am-jzh"/>
+                            <constraint firstItem="ILq-8X-P1o" firstAttribute="leading" secondItem="JtW-Tf-mZd" secondAttribute="leading" id="i8Y-pk-v27"/>
+                            <constraint firstItem="usX-o7-rSe" firstAttribute="top" secondItem="z6d-E5-6rg" secondAttribute="top" id="jR5-ZB-GH2"/>
+                            <constraint firstItem="iTf-8a-xcn" firstAttribute="top" secondItem="ILq-8X-P1o" secondAttribute="top" id="kUf-n7-k4K"/>
+                            <constraint firstItem="JtW-Tf-mZd" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" multiplier="1:4" id="nu8-eE-MUX"/>
+                            <constraint firstItem="z6d-E5-6rg" firstAttribute="top" secondItem="JtW-Tf-mZd" secondAttribute="top" constant="2" id="vBh-zL-xKz"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="coins" destination="usX-o7-rSe" id="ESF-Rc-xQl"/>
+                        <outlet property="points" destination="JtW-Tf-mZd" id="0b6-J2-bl5"/>
                         <outlet property="skView" destination="m2S-Jp-Qdl" id="qux-te-cT3"/>
+                        <outlet property="time" destination="WAg-S2-BBH" id="VLD-OY-GtK"/>
+                        <outlet property="world" destination="Qfa-xf-35V" id="o55-c2-bPM"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -711,4 +791,7 @@
             <point key="canvasLocation" x="75" y="817"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="coin-glow1" width="10" height="14"/>
+    </resources>
 </document>

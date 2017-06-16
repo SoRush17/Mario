@@ -94,6 +94,10 @@ extension Mario {
     static let jumpTexture = SKTexture(imageNamed: "mario-jump", scale: texturesScale)
     static let jumpSuperTexture = SKTexture(imageNamed: "superMario-jump", scale: texturesScale)
     
+    
+    
+    static let crouchSuperTexture = SKTexture(imageNamed: "superMario-crouch", scale: texturesScale)
+    
     static let movingTextures =
         [SKTexture(imageNamed: "mario-walk1", scale: texturesScale),
          SKTexture(imageNamed: "mario-walk2", scale: texturesScale),
@@ -133,4 +137,17 @@ extension QTile {
         [SKTexture(imageNamed: "qTile1"),
          SKTexture(imageNamed: "qTile2"),
         SKTexture(imageNamed: "qTile3")]
+}
+
+
+class SoundManager {
+    static let superMarioSound = NSSound(named: "level-01")!
+    static let kick = NSSound(named: "kick")!
+    static let allPoints = NSSound(named: "allPoints")!
+    static let powerUp = NSSound(named: "powerUp")!
+    static let getItem = NSSound(named: "item")!
+    static let Jump = NSSound(named: "jump")!
+    static let warp = NSSound(named: "warp")!
+    static let levelEnd = NSSound(named: "area-clear")!
+    static let coin = NSSound(named: "coin")!
 }

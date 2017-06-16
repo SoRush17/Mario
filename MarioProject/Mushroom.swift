@@ -34,14 +34,16 @@ class Mushroom: SKSpriteNode, Updatable, Animatable {
             return
         }
         
-        let right = CGPoint(x: self.frame.maxX+5, y: self.frame.midY)
-        let left = CGPoint(x: self.frame.minX-5, y: self.frame.midY)
+        
+        let sign = CGFloat(direction.rawValue)
+        let side = CGPoint(x: (self.position.x + sign * self.frame.width + sign * 10), y: self.frame.midY)
+        
         
         for body in self.physicsBody!.allContactedBodies() {
             
-            if body.node!.contains(right) || body.node!.contains(left) {
+            if body.node!.contains(side) {
                 direction = Direction(rawValue: direction.rawValue * -1)!
-                self.position.x += CGFloat(direction.rawValue * 5)
+                self.position.x += CGFloat(direction.rawValue * 6)
                 self.autoMove(direction: direction)
             }
             
@@ -50,19 +52,22 @@ class Mushroom: SKSpriteNode, Updatable, Animatable {
                 
                 if isBad {
                     if Mario.standard.didHit(node: self, with: .foot) {
-                        collisionSound = NSSound(named: "kick")!
-                        Mario.standard.IsJumping = true
+                        collisionSound = SoundManager.kick
+                        Mario.standard.jump(withPower: 600)
+                        (self.scene! as! WorldDelegate).increasePoints(by: 100,isCoin: false)
+                        (self.scene! as! WorldDelegate).showLabelPoint(point: 100, at: self.position)
                         self.removeFromParent()
                     } else {
-                        collisionSound = NSSound(named: "warp")!
+                        collisionSound = SoundManager.warp
                         Mario.standard.changeMode(to: .normal)
-                        
                     }
                     collisionSound.play()
                     
                 } else {
-                    collisionSound = NSSound(named: "item")!
+                    collisionSound = SoundManager.powerUp
                     collisionSound.play()
+                    (self.scene! as! WorldDelegate).increasePoints(by: 1000,isCoin: false)
+                    (self.scene! as! WorldDelegate).showLabelPoint(point: 1000, at: self.position)
                     Mario.standard.changeMode(to: .superMario)
                     self.removeFromParent()
                 }
@@ -83,7 +88,7 @@ class Mushroom: SKSpriteNode, Updatable, Animatable {
     }
     
     private func autoMove(direction: Direction) {
-        let actMove = SKAction.repeatForever(SKAction.move(by: CGVector(dx: 10 * direction.rawValue, dy: 0), duration: 0.1))
+        let actMove = SKAction.repeatForever(SKAction.move(by: CGVector(dx: mushSpeed * direction.rawValue, dy: 0), duration: 0.1))
         self.run(actMove, withKey: "moving")
     }
     

@@ -15,8 +15,6 @@ class QTile: SKSpriteNode, Updatable, Animatable {
 
     private var hittedTimes: Int = 0
     private var hasPoint = true
-    private let ding = NSSound(named: "coin")!
-    
     
     func beginInitAnimations() {
         startGlow()
@@ -36,13 +34,17 @@ class QTile: SKSpriteNode, Updatable, Animatable {
             let actCollection = SKAction.sequence([act1,act2])
             
             if self.userData?.object(forKey: "tileContent") as? Int == 1 {
+                SoundManager.getItem.stop()
+                SoundManager.getItem.play()
                 self.run(actCollection) {
                     self.makeMushroom()
                 }
             } else {
-                self.ding.stop()
-                self.ding.play()
+                
+                SoundManager.coin.stop()
+                SoundManager.coin.play()
                 self.makeCoin()
+                (self.scene! as! WorldDelegate).increasePoints(by: 200)
                 self.run(actCollection)
             }
             
@@ -73,6 +75,9 @@ class QTile: SKSpriteNode, Updatable, Animatable {
         coin.zPosition = -1
         self.addChild(coin)
         coin.run(coinAnimation) {
+            let pos = CGPoint(x: self.frame.midX, y: self.frame.maxY)
+            
+            (self.scene! as! WorldDelegate).showLabelPoint(point: 200, at: pos)
             coin.removeAllActions()
             coin.removeFromParent()
         }
